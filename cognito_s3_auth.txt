@@ -1,0 +1,80 @@
+비로그인 사용자 s3 정책(auth)
+{ 
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "GetBucketListIfRequestIsForUser",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::cognito.s3"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{daara-bucket}/public/*" 
+            ]
+        }
+    ]
+}
+
+
+로그인 사용자 s3 정책(auth)
+{ 
+    "Version": "2012-10-17",
+    "Statement": [
+        { 
+            "Sid": "GetBucketListIfRequestIsForUser",
+            "Action": [ 
+                "s3:ListBucket"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::{daara-bucket}"
+            ]
+        }, 
+        {
+            "Sid": "AllowAccessToPrivateCognitoUserFolder",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{daara-bucket}/public/*",
+                "arn:aws:s3:::{daara-bucket}/private/${arn:aws:iam::934948423361:role/Cognito_daARANewUserAthorizationAuth_Role}",
+                "arn:aws:s3:::{daara-bucket}/private/${arn:aws:iam::934948423361:role/Cognito_daARANewUserAthorizationAuth_Role}/*"
+            ]
+        },
+        {
+            "Condition":
+            { 
+                "StringLike":
+                {
+                    "s3:prefix": [ 
+                        "public/", 
+                        "public/*", 
+                        "private/${cognito-identity.amazonaws.com:sub}/",
+                        "private/${cognito-identity.amazonaws.com:sub}/*"
+                    ]
+                }
+            },
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::{daara-bucket}"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
