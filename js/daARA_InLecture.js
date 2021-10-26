@@ -466,7 +466,7 @@ async function takeScreenShot() {
       var seconds = now.getSeconds();
       //log file로 감정 분석 결과 출력
       const text = "[" + year + "." + month + "." + day + " " + hours + ":" + minutes + ":" + seconds + "]  [" + "1순위 감정 : " + sorted_keys[0] + " " + map[sorted_keys[0]] + ", 2순위 감정 : " + sorted_keys[1] + " " + map[sorted_keys[1]] + ", 3순위 감정 : " + sorted_keys[2] +  " " + map[sorted_keys[2]] + "]\n";
-      fs.appendFileSync(__dirname+"\\emotion.log", '\ufeff' + text, {encoding: 'utf8'});
+      fs.appendFileSync("./emotion.log", text, {encoding: 'utf8'});
 
       //display로 감정 분석 결과 출력
       if (map[sorted_keys[0]] != 0) {

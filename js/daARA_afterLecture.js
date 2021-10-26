@@ -77,11 +77,10 @@ downloadResultBTN.addEventListener('click', e => {
   
   saveDialog.then(function(saveTo) {
       console.log(saveTo.filePath);
-      fs.appendFile(saveTo.filePath, save_data, (err) => {
+      fs.appendFileSync(saveTo.filePath, save_data, (err) => {
         if (err) throw console.log(err);
       });
-    })
-    return;
+    })  
 })
 
 viewLogBTN.addEventListener('click', e => {
